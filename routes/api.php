@@ -20,8 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('topic',[TopicController::class,'index']);
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => 'api','role:Admin'
 ], function () {
+
     Route::post('topic/subscribe',[TopicController::class,'subscribe']);
 
     Route::group(['prefix' => 'auth'], function(){

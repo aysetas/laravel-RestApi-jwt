@@ -19,7 +19,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware(['auth:api','role:Admin'],['except' => ['login', 'register']]);
 
     }
 
@@ -40,8 +40,10 @@ class AuthController extends Controller
     public function register(AuthRegisterRequest $request)
     {
         $user = User::create($request->validated());
+        $user->syncRoles($request->role);
 
         return $this->respondWithToken(auth()->attempt(request(['email', 'password'])));
+
     }
 
     /**
